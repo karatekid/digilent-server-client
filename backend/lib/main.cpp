@@ -2,10 +2,10 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "Device.h"
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TJSONProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TBufferTransports.h>
+#include <thrift/transport/THttpServer.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -92,8 +92,8 @@ int main(int argc, char **argv) {
   shared_ptr<DeviceHandler> handler(new DeviceHandler());
   shared_ptr<TProcessor> processor(new DeviceProcessor(handler));
   shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+  shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
+  shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
 
   TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
   server.serve();
