@@ -1,0 +1,7 @@
+*.swp
+*.o
+obj/
+
+# Generated files
+frontend/gen-js
+backend/gen-cpp
