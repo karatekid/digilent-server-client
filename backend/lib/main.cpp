@@ -7,6 +7,10 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/THttpServer.h>
 
+#include <dwfobj/Device.h>
+#include <dwfobj/helper.h>
+#include <dwfobj/easylogging++.h>
+
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
@@ -87,16 +91,19 @@ class DeviceHandler : virtual public DeviceIf {
 
 };
 
-int main(int argc, char **argv) {
-  int port = 9090;
-  shared_ptr<DeviceHandler> handler(new DeviceHandler());
-  shared_ptr<TProcessor> processor(new DeviceProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
+INITIALIZE_EASYLOGGINGPP
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
-  return 0;
+int main(int argc, char **argv) {
+    initializeLogging(argc, argv);
+    int port = 9090;
+    shared_ptr<DeviceHandler> handler(new DeviceHandler());
+    shared_ptr<TProcessor> processor(new DeviceProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
+
+    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    server.serve();
+    return 0;
 }
 

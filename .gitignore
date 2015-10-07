@@ -5,6 +5,8 @@ obj/
 # Generated files
 frontend/gen-js
 backend/gen-cpp
+logs/
 
 # Compiled Binary
 run
+
