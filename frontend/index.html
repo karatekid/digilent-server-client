@@ -39,15 +39,11 @@
   var client    = new DeviceClient(protocol);
   var devInfo;
   var doneDrawing = false;
-  try {
-  	devInfo   = client.open();
-	console.log(devInfo);
-  } catch(err) {
-  }
 
   function getDigitalInputConfig() {
       return client.getDigitalInputConfig();
   }
+  console.log(getDigitalInputConfig());
   //]]>
   </script>
 </head>

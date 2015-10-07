@@ -24,14 +24,20 @@ class DeviceHandler : virtual public DeviceIf {
     // Your initialization goes here
   }
 
-  void open() {
-    // Your implementation goes here
-    printf("open\n");
-  }
-
   void getDigitalInputConfig( ::DigitalInput& _return) {
     // Your implementation goes here
     printf("getDigitalInputConfig\n");
+    _return.divider = getCRConfigInt(
+            (dwf::ContinuousRangeConfiguration<int> *)
+            &dev.digitalIn.divider);
+    _return.bufferSize = getCRConfigInt(
+            (dwf::ContinuousRangeConfiguration<int> *)
+            &dev.digitalIn.bufferSize);
+    _return.triggerPosition = getCRConfigInt(
+            (dwf::ContinuousRangeConfiguration<int> *)
+            &dev.digitalIn.triggerPosition);
+    _return.internalClkFreq = dev.digitalIn.getInternalClkFreq();
+    _return.__isset.internalClkFreq = true;
   }
 
   void configureDigitalInput( ::DigitalInput& _return, const  ::DigitalInput& config) {
@@ -42,16 +48,19 @@ class DeviceHandler : virtual public DeviceIf {
   void resetDigitalInput() {
     // Your implementation goes here
     printf("resetDigitalInput\n");
+    dev.digitalIn.reset();
   }
 
   void startDigitalInput() {
     // Your implementation goes here
     printf("startDigitalInput\n");
+    dev.digitalIn.start();
   }
 
   void stopDigitalInput() {
     // Your implementation goes here
     printf("stopDigitalInput\n");
+    dev.digitalIn.stop();
   }
 
   void readDigitalInput(std::vector< ::DigitalData> & _return) {
@@ -87,6 +96,19 @@ class DeviceHandler : virtual public DeviceIf {
   void readAnalogInput(std::vector< ::AnalogData> & _return) {
     // Your implementation goes here
     printf("readAnalogInput\n");
+  }
+ private:
+  dwf::Device dev;
+  ::CRConfigInt getCRConfigInt(dwf::ContinuousRangeConfiguration<int> * devCRConfig) {
+      ::CRConfigInt returnVal;
+      dwf::ContinuousRange<int> range = devCRConfig->getRange();
+      printf("%s\n",range.toString().c_str());
+      returnVal.val = devCRConfig->get();
+      returnVal.min = range.min;
+      returnVal.max = range.max;
+      returnVal.__isset.min = true;
+      returnVal.__isset.max = true;
+      return returnVal;
   }
 
 };

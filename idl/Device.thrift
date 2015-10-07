@@ -9,9 +9,6 @@ exception InvalidConfiguration {
 }
 
 service Device {
-    // Open device
-    void open() throws (1:DeviceNotAvailable ouch),
-
     // DigitalInput functions
     // Gets beginning info and original value
     DigitalInput.DigitalInput getDigitalInputConfig(),
