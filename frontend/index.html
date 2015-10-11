@@ -1,52 +1,52 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements. See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership. The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License. You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied. See the License for the
-  specific language governing permissions and limitations
-  under the License.
--->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
   <title>Thrift Javascript Bindings - Tutorial Example</title>
 
-  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+  <!-- JS Files -->
+  <!--External Libraries -->
+  <script src="https://www.google.com/jsapi"  type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap/bootstrap.min.js" type="text/javascript"></script> <!-- Must come after jQuery -->
+  <script src="js/knockout/knockout-3.3.0.js" type="text/javascript"></script>
+  <script src="js/thrift/thrift.js"           type="text/javascript"></script>
 
-  <script src="js/thrift/thrift.js"          type="text/javascript"></script>
-  <script src="gen-js/AnalogInput_types.js"  type="text/javascript"></script>
-  <script src="gen-js/DigitalInput_types.js" type="text/javascript"></script>
-  <script src="gen-js/Config_types.js"       type="text/javascript"></script>
-  <script src="gen-js/Device_types.js"       type="text/javascript"></script>
-  <script src="gen-js/Device.js"             type="text/javascript"></script>
+  <!--Generated thrift js files -->
+  <script src="gen-js/AnalogInput_types.js"   type="text/javascript"></script>
+  <script src="gen-js/DigitalInput_types.js"  type="text/javascript"></script>
+  <script src="gen-js/Config_types.js"        type="text/javascript"></script>
+  <script src="gen-js/Device_types.js"        type="text/javascript"></script>
+  <script src="gen-js/Device.js"              type="text/javascript"></script>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
-  <script type="text/javascript" charset="utf-8">
-  //<![CDATA[
-  var transport = new Thrift.Transport("http://localhost:9090");
-  var protocol  = new Thrift.Protocol(transport);
-  var client    = new DeviceClient(protocol);
-  var devInfo;
-  var doneDrawing = false;
+  <!-- Main js files -->
+  <script src"js/main.js"                     type="text/javascript"></script>
 
-  function getDigitalInputConfig() {
-      return client.getDigitalInputConfig();
-  }
-  console.log(getDigitalInputConfig());
-  //]]>
-  </script>
+  <!-- CSS Files -->
+  <!-- External Libraries -->
+  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="css/bootstrap/bootstrap-theme.min.css" rel="stylesheet"> -->
+
 </head>
+
 <body>
+<div class="container">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#digitalin" aria-controls="digitalin" role="tab" data-toggle="tab">Digital Input</a></li>
+    <li role="presentation">               <a href="#analogin" aria-controls="anlogin" role="tab" data-toggle="tab">Analog Input</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="digitalin">
+        Digital Stuff
+    </div>
+    <div role="tabpanel" class="tab-pane" id="analogin">
+        Analog Stuff
+    </div>
+  </div>
+</div>
 </body>
 </html>
