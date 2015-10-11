@@ -5,7 +5,22 @@ var devInfo;
 var doneDrawing = false;
 
 function getDigitalInputConfig() {
-    return client.getDigitalInputConfig();
+    try {
+      return client.getDigitalInputConfig();
+    } catch(NetworkError) {
+      return "No network";
+    }
+
 }
 console.log(getDigitalInputConfig());
 
+function DigitalInModel() {
+    var self = this;
+
+    self.channels = [];
+    for(var i = 0; i < 16; ++i) {
+        self.channels.push({"num": i.toString()});
+    }
+}
+
+ko.applyBindings(new DigitalInModel());

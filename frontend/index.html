@@ -2,31 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Thrift Javascript Bindings - Tutorial Example</title>
-
-  <!-- JS Files -->
-  <!--External Libraries -->
-  <script src="https://www.google.com/jsapi"  type="text/javascript"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
-  <script src="js/bootstrap/bootstrap.min.js" type="text/javascript"></script> <!-- Must come after jQuery -->
-  <script src="js/knockout/knockout-3.3.0.js" type="text/javascript"></script>
-  <script src="js/thrift/thrift.js"           type="text/javascript"></script>
-
-  <!--Generated thrift js files -->
-  <script src="gen-js/AnalogInput_types.js"   type="text/javascript"></script>
-  <script src="gen-js/DigitalInput_types.js"  type="text/javascript"></script>
-  <script src="gen-js/Config_types.js"        type="text/javascript"></script>
-  <script src="gen-js/Device_types.js"        type="text/javascript"></script>
-  <script src="gen-js/Device.js"              type="text/javascript"></script>
-
-  <!-- Main js files -->
-  <script src"js/main.js"                     type="text/javascript"></script>
 
   <!-- CSS Files -->
   <!-- External Libraries -->
   <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
   <!-- <link href="css/bootstrap/bootstrap-theme.min.css" rel="stylesheet"> -->
+
+  <!-- JS Files included in bottom of body -->
 
 </head>
 
@@ -41,12 +27,51 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="digitalin">
-        Digital Stuff
+      <div class="row">
+        <div class="col-md-12" id="digitalin-control-panel">
+          <p>Control Panel: </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1" id="digitalin-channels">
+          <table>
+            <thead>
+              <tr><th>Ch</th></tr>
+            </thead>
+            <tbody data-bind="foreach: channels">
+              <tr>
+                <td data-bind="text: num"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-11" id="digitalin-graph">
+        </div>
+      </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="analogin">
-        Analog Stuff
+      Analog Stuff
     </div>
   </div>
 </div>
+
+<!-- JS Files -->
+<!--External Libraries -->
+<script src="https://www.google.com/jsapi"  type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap/bootstrap.min.js" type="text/javascript"></script> <!-- Must come after jQuery -->
+<script src="js/knockout/knockout-3.3.0.js" type="text/javascript"></script>
+<script src="js/underscore/underscore.js" type="text/javascript"></script>
+<script src="js/thrift/thrift.js"           type="text/javascript"></script>
+
+<!--Generated thrift js files -->
+<script src="gen-js/AnalogInput_types.js"   type="text/javascript"></script>
+<script src="gen-js/DigitalInput_types.js"  type="text/javascript"></script>
+<script src="gen-js/Config_types.js"        type="text/javascript"></script>
+<script src="gen-js/Device_types.js"        type="text/javascript"></script>
+<script src="gen-js/Device.js"              type="text/javascript"></script>
+
+<!-- Main js files -->
+<script src="js/main.js"                     type="text/javascript"></script>
 </body>
 </html>
