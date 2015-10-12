@@ -21,6 +21,14 @@ function DigitalInModel() {
     for(var i = 0; i < 16; ++i) {
         self.channels.push({"num": i.toString()});
     }
+    self.frequency = {
+        min: 0,
+        max: 2000,
+        step: 200,
+        val: 400
+    }
 }
 
 ko.applyBindings(new DigitalInModel());
+
+$("#digital-freq-select").slider();

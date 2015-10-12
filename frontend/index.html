@@ -11,6 +11,7 @@
   <!-- External Libraries -->
   <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
   <!-- <link href="css/bootstrap/bootstrap-theme.min.css" rel="stylesheet"> -->
+  <link href="css/bootstrap-slider/bootstrap-slider.css" rel="stylesheet">
 
   <!-- JS Files included in bottom of body -->
 
@@ -36,7 +37,13 @@
         <div class="col-md-1" id="digitalin-channels">
           <table>
             <thead>
-              <tr><th>Ch</th></tr>
+              <tr>
+                <th>Ch</th>
+                <th><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></th>
+                <th><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></th>
+                <th><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>_</th>
+                <th><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>_</th>
+              </tr>
             </thead>
             <tbody data-bind="foreach: channels">
               <tr>
@@ -46,6 +53,13 @@
           </table>
         </div>
         <div class="col-md-11" id="digitalin-graph">
+          <input id="digital-freq-select" type="text"
+          data-bind="attr: {
+            'data-slider-min': frequency.min,
+            'data-slider-max': frequency.max,
+            'data-slider-step': frequency.step,
+            'data-slider-value': frequency.val }"
+            style="width:100%">
         </div>
       </div>
     </div>
@@ -57,21 +71,22 @@
 
 <!-- JS Files -->
 <!--External Libraries -->
-<script src="https://www.google.com/jsapi"  type="text/javascript"></script>
+<script src="https://www.google.com/jsapi"                                     type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
-<script src="js/bootstrap/bootstrap.min.js" type="text/javascript"></script> <!-- Must come after jQuery -->
-<script src="js/knockout/knockout-3.3.0.js" type="text/javascript"></script>
-<script src="js/underscore/underscore.js" type="text/javascript"></script>
-<script src="js/thrift/thrift.js"           type="text/javascript"></script>
+<script src="js/bootstrap/bootstrap.min.js"                                    type="text/javascript"></script> <!-- Must come after jQuery -->
+<script src="js/bootstrap-slider/bootstrap-slider.js"                          type="text/javascript"></script>
+<script src="js/knockout/knockout-3.3.0.js"                                    type="text/javascript"></script>
+<script src="js/underscore/underscore.js"                                      type="text/javascript"></script>
+<script src="js/thrift/thrift.js"                                              type="text/javascript"></script>
 
 <!--Generated thrift js files -->
-<script src="gen-js/AnalogInput_types.js"   type="text/javascript"></script>
-<script src="gen-js/DigitalInput_types.js"  type="text/javascript"></script>
-<script src="gen-js/Config_types.js"        type="text/javascript"></script>
-<script src="gen-js/Device_types.js"        type="text/javascript"></script>
-<script src="gen-js/Device.js"              type="text/javascript"></script>
+<script src="gen-js/AnalogInput_types.js"                                      type="text/javascript"></script>
+<script src="gen-js/DigitalInput_types.js"                                     type="text/javascript"></script>
+<script src="gen-js/Config_types.js"                                           type="text/javascript"></script>
+<script src="gen-js/Device_types.js"                                           type="text/javascript"></script>
+<script src="gen-js/Device.js"                                                 type="text/javascript"></script>
 
 <!-- Main js files -->
-<script src="js/main.js"                     type="text/javascript"></script>
+<script src="js/main.js"                                                       type="text/javascript"></script>
 </body>
 </html>
