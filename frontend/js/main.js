@@ -57,7 +57,6 @@ function DigitalInConfigVM(data) {
         }),
         step: 1
     }
-    self.textS = ko.observable("textS");
 }
 var mapping = {
     create: function(options) {

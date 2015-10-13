@@ -33,7 +33,6 @@
       <div class="row">
         <div class="col-md-12" id="digitalin-control-panel">
           <p>Control Panel: </p>
-          <input type="text" data-bind="textInput:textS">
         </div>
       </div>
       <div class="row">
@@ -56,13 +55,20 @@
           </table>
         </div>
         <div class="col-md-11" id="digitalin-graph">
-          <input class="slider" id="digital-freq-select" type="text"
-          data-bind="attr: {
-            'data-slider-min': frequency.min,
-            'data-slider-max': frequency.max,
-            'data-slider-step': frequency.step,
-            'data-slider-value': frequency.val }"
-            style="width:100%">
+          <div class="row">
+            <div class="col-md-10">
+              <input class="slider" id="digital-freq-select" type="text"
+                data-bind="attr: {
+                'data-slider-min': frequency.min,
+                'data-slider-max': frequency.max,
+                'data-slider-step': frequency.step,
+                'data-slider-value': frequency.val }"
+                style="width:100%">
+            </div>
+            <div class="col-md-2">
+              <input type="text" data-bind="textInput:frequency.val">
+            </div>
+          </div>
         </div>
       </div>
     </div>
