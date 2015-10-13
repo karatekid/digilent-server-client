@@ -57,11 +57,13 @@
         <div class="col-md-11" id="digitalin-graph">
           <div class="row">
             <div class="col-md-12">
-              <div class="input-group">
-                <span class"input-group-addon" data-bind="text: 'Frequency: [' + frequency.min() + ', ' + frequency.max() + ']'"></span>
-                <input type="text"
-                       class="form-control"
-                       data-bind="value:frequency.val">
+              <div class="form-inline">
+                <div class="form-group">
+                  <label for="digitalin-freq" data-bind="text: 'Frequency: [' + frequency.min() + ', ' + frequency.max() + ']'"></label>
+                  <input id="digitalin-freq" type="text"
+                         class="form-control"
+                         data-bind="value:frequency.val">
+                </div>
               </div>
             </div>
           </div>
