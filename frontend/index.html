@@ -12,6 +12,8 @@
   <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
   <!-- <link href="css/bootstrap/bootstrap-theme.min.css" rel="stylesheet"> -->
   <link href="css/bootstrap-slider/bootstrap-slider.css" rel="stylesheet">
+  <!-- Internal CSS -->
+  <link href="css/main.css" rel="stylesheet">
 
   <!-- JS Files included in bottom of body -->
 
@@ -53,7 +55,7 @@
           </table>
         </div>
         <div class="col-md-11" id="digitalin-graph">
-          <input id="digital-freq-select" type="text"
+          <input class="slider" id="digital-freq-select" type="text"
           data-bind="attr: {
             'data-slider-min': frequency.min,
             'data-slider-max': frequency.max,
