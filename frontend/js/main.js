@@ -66,8 +66,3 @@ var mapping = {
 //A global instance of the digitalIn configuration
 var digitalInConfig = ko.mapping.fromJS(getDigitalInputConfig(), mapping);
 ko.applyBindings(digitalInConfig, document.getElementById('digitalin'));
-
-$("#digital-freq-select").slider();
-$("#digital-freq-select").on("slideStop", function(slideEvt) {
-    digitalInConfig.frequency.val(slideEvt.value);
-});
