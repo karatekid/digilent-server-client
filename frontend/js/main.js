@@ -51,9 +51,6 @@ function DigitalInConfigVM(data) {
             write: function(value) {
                 var min = self.internalClkFreq()/self.divider.max();
                 var max = self.internalClkFreq()/self.divider.min();
-                //TODO: divider, not actually getting set when called from
-                //slider, but works fine if called from console, no idea what
-                //the issue is.
                 self.divider.val(getDigitalDivider(min, max , value));
             },
             owner: self
@@ -72,7 +69,6 @@ var digitalInConfig = ko.mapping.fromJS(getDigitalInputConfig(), mapping);
 ko.applyBindings(digitalInConfig, document.getElementById('digitalin'));
 
 $("#digital-freq-select").slider();
-$("#digital-freq-select").on("slide", function(slideEvt) {
-    console.log("sliding");
+$("#digital-freq-select").on("slideStop", function(slideEvt) {
     digitalInConfig.frequency.val(slideEvt.value);
 });
