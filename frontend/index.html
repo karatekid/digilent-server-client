@@ -50,6 +50,18 @@
             <tbody data-bind="foreach: channels">
               <tr>
                 <td data-bind="text: num"></td>
+                <td data-bind="if: num in $parent.trigger.options.EdgeRise()">
+                  <input type="checkbox" data-bind="checkedValue: num, checked: $parent.trigger.val.EdgeRise">
+                </td>
+                <td data-bind="if: num in $parent.trigger.options.EdgeFall()">
+                  <input type="checkbox" data-bind="checkedValue: num, checked: $parent.trigger.val.EdgeFall">
+                </td>
+                <td data-bind="if: num in $parent.trigger.options.LevelHigh()">
+                  <input type="checkbox" data-bind="checkedValue: num, checked: $parent.trigger.val.LevelHigh">
+                </td>
+                <td data-bind="if: num in $parent.trigger.options.LevelLow()">
+                  <input type="checkbox" data-bind="checkedValue: num, checked: $parent.trigger.val.LevelLow">
+                </td>
               </tr>
             </tbody>
           </table>
