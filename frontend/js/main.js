@@ -1,3 +1,9 @@
+requirejs.config({
+    baseUrl: 'js/app',
+});
+requirejs([
+],
+function () {
 var transport = new Thrift.Transport("http://localhost:9090");
 var protocol  = new Thrift.Protocol(transport);
 var client    = new DeviceClient(protocol);
@@ -98,3 +104,4 @@ ko.components.register('setInput', {
 //A global instance of the digitalIn configuration
 var digitalInConfig = ko.mapping.fromJS(getDigitalInputConfig(), DigitalInMapping);
 ko.applyBindings(digitalInConfig, document.getElementById('digitalin'));
+});
