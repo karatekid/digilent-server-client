@@ -1,0 +1,9 @@
+<label data-bind='text: name'></label>
+<select class='form-control'
+        data-bind='
+            options: roptions,
+            optionsText: function(key) {
+                return dict[key];
+            },
+            value: val'>
+</select>
