@@ -6,8 +6,9 @@ requirejs.config({
 });
 requirejs([
     'DigitalInKnockout',
+    'graph'
 ],
-function (DigitalInKO) {
+function (DigitalInKO, graph) {
 var transport = new Thrift.Transport("http://localhost:9090");
 var protocol  = new Thrift.Protocol(transport);
 var client    = new DeviceClient(protocol);
