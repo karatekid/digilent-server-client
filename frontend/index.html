@@ -32,40 +32,37 @@
     <div role="tabpanel" class="tab-pane active" id="digitalin">
       <div class="row">
         <div class="col-md-12" id="digitalin-control-panel">
-          <p>Control Panel: </p>
           <div class="row">
             <div class="col-md-1">
             </div>
             <div class="col-md-2 form-group">
-              <label>Trigger Source:</label>
-              <select class="form-control"
-                      data-bind="options: triggerSource.options,
-                                 optionsText: function(src) {
-                                     return TrigSrcNames[src];
-                                 },
-                                 value: triggerSource.val"></select>
+              <div data-bind="component: {
+                  name: 'setInput',
+                  params: {
+                      name: 'Trigger Source:',
+                      dict: TrigSrcNames,
+                      data: triggerSource}}"></div>
             </div>
             <div class="col-md-2 form-group">
-              <label data-bind="text: 'Trigger Position[' + triggerPosition.min() + ', ' + triggerPosition.max() + ']:'"></label>
-              <input type="text"
-                     class="form-control"
-                     data-bind="value:triggerPosition.val">
+              <div data-bind="component: {
+                  name: 'crInput',
+                  params: { name: 'Trigger Position',
+                            data: triggerPosition}}"></div>
             </div>
             <div class="col-md-2 form-group">
-              <label data-bind="text: 'Trigger AutoTimeout[' + triggerAutoTimeout.min() + ', ' + triggerAutoTimeout.max() + ']:'"></label>
-              <input type="text"
-                     class="form-control"
-                     data-bind="value:triggerAutoTimeout.val">
+              <div data-bind="component: {
+                  name: 'crInput',
+                  params: { name: 'Trigger AutoTimeout',
+                            data: triggerAutoTimeout}}"></div>
             </div>
 
             <div class="col-md-2 form-group">
-              <label>Acquisition Mode:</label>
-              <select class="form-control"
-                      data-bind="options: acquisitionMode.options,
-                                 optionsText: function(mode) {
-                                     return AcqModeNames[mode];
-                                 },
-                                 value: acquisitionMode.val"></select>
+              <div data-bind="component: {
+                  name: 'setInput',
+                  params: {
+                      name: 'Acquisition Mode:',
+                      dict: AcqModeNames,
+                      data: acquisitionMode}}"></div>
             </div>
             <div class="col-md-3 btn-group" role="group">
                 <button class="btn btn-success" type="button"
@@ -127,14 +124,10 @@
         <div class="col-md-11" id="digitalin-graph">
           <div class="row">
             <div class="col-md-12">
-              <div class="form-inline">
-                <div class="form-group">
-                  <label for="digitalin-freq" data-bind="text: 'Frequency[' + frequency.min() + ', ' + frequency.max() + ']:'"></label>
-                  <input id="digitalin-freq" type="text"
-                         class="form-control"
-                         data-bind="value:frequency.val">
-                </div>
-              </div>
+              <div data-bind="component: {
+                  name: 'crInput',
+                  params: { name: 'Frequency',
+                            data: frequency}}"></div>
             </div>
           </div>
         </div>
