@@ -1,4 +1,4 @@
-define(['lib/text!./SetInput-component.html'], function(htmlString) {
+define(['lib/text!./templates/SetInput-component.html'], function(htmlString) {
     function SetInputVM(params) {
         var self = this;
         self.roptions = (params && params.data && params.data.options) || 0;

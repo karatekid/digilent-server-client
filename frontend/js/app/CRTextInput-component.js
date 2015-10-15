@@ -1,4 +1,4 @@
-define(['lib/text!./CRTextInput-component.html'], function(htmlString) {
+define(['lib/text!./templates/CRTextInput-component.html'], function(htmlString) {
     function CRTextInputVM(params) {
         var self  = this;
         self.min  = (params && params.data && params.data.min) || 0;
