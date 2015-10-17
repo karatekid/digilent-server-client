@@ -29,3 +29,8 @@ svg {
   stroke: #FAFAFA;
   shape-rendering: crispEdges;
 }
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
