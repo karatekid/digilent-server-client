@@ -14,14 +14,13 @@ define(["lib/d3.min"], function(d3) {
         return data;
     };
     // Setup
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    var margin = {top: 40, right: 20, bottom: 30, left: 50},
         width  = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
     var x = d3.scale.linear()
         .range([0, width]);
-    var lineHeight = height / 16;
-    lineHeight = 10;
     var linePadding = 10;
+    var lineHeight = height / 16 - linePadding;
     var y = d3.scale.linear()
         .range([lineHeight, 0]);
     var xAxis = d3.svg.axis()
@@ -73,12 +72,12 @@ define(["lib/d3.min"], function(d3) {
             ]);
     // SVG Creation / update
     var svg = d3.select("#digitalin-graph-container").append("svg")
-        .attr("width", width)
-        .attr("height", height);
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
     // Axes
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
+        .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
         .call(xAxis);
     // Lines
     var lineContainer = svg.append("g")
