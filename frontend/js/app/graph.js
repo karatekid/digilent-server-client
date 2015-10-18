@@ -87,11 +87,12 @@ define(["lib/d3.min"], function(d3) {
     var svg = d3.select("#digitalin-graph-container").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
+
     // Axes
-    svg.append("g")
+    var xAxisGraph = svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")")
-        .call(xAxis);
+        .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")");
+
     // Lines
     var lineContainer = svg.append("g")
         .attr("id", "lineContainer");
@@ -105,6 +106,8 @@ define(["lib/d3.min"], function(d3) {
                 d3.min(data, function(c) { return d3.min(c, function(d) { return d; }); }),
                 d3.max(data, function(c) { return d3.max(c, function(d) { return d; }); })
                 ]);
+        // Axis update
+        xAxisGraph.call(xAxis);
         // Get Lines
         var lines = lineContainer.selectAll("g").data(data);
         // Update only
