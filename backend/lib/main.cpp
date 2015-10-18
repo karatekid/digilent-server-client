@@ -47,7 +47,7 @@ class DeviceHandler : virtual public DeviceIf {
             &dev.digitalIn.triggerPosition);
     _return.triggerAutoTimeout = getDRConfigDouble(
             (dwf::DiscreteRangeConfiguration<double> *)
-            &dev.digitalIn.triggerSource);
+            &dev.digitalIn.triggerAutoTimeout);
     _return.trigger.val = getDInTrigger(dev.digitalIn.trigger.get());
     _return.trigger.options = getDInTrigger(dev.digitalIn.trigger.getBitmask());
     _return.trigger.__isset.options = true;
@@ -59,6 +59,21 @@ class DeviceHandler : virtual public DeviceIf {
   void configureDigitalInput( ::DigitalInput& _return, const  ::DigitalInput& config) {
     // Your implementation goes here
     printf("configureDigitalInput\n");
+    // Set new configs
+    dev.digitalIn.divider.set(config.divider.val);
+    dev.digitalIn.bufferSize.set(config.bufferSize.val);
+    dev.digitalIn.acquisitionMode.set(config.acquisitionMode.val);
+    dev.digitalIn.triggerSource.set(config.triggerSource.val);
+    dev.digitalIn.triggerPosition.set(config.triggerPosition.val);
+    dev.digitalIn.triggerAutoTimeout.set(config.triggerAutoTimeout.val);
+    printf("WARNING: Can't set trigger yet\n");
+    //dev.digitalIn.trigger.set(createDInTrigger(config.trigger.val));
+
+    // Configure
+    dev.digitalIn.configure();
+
+    // Get new config
+    getDigitalInputConfig(_return);
   }
 
   void resetDigitalInput() {
@@ -82,6 +97,10 @@ class DeviceHandler : virtual public DeviceIf {
   void readDigitalInput(std::vector< ::DigitalData> & _return) {
     // Your implementation goes here
     printf("readDigitalInput\n");
+    std::vector<dwf::DigitalData> arr = dev.digitalIn.read();
+    for(int i = 0; i < arr.size(); ++i) {
+        _return.push_back(arr[i].to_ulong());
+    }
   }
 
   void getAnalogInputConfig( ::AnalogInput& _return) {
@@ -115,6 +134,7 @@ class DeviceHandler : virtual public DeviceIf {
   }
  private:
   dwf::Device dev;
+  // To JS
   ::CRConfigInt getCRConfigInt(dwf::ContinuousRangeConfiguration<int> * devCRConfig) {
       ::CRConfigInt returnVal;
       dwf::ContinuousRange<int> range = devCRConfig->getRange();
@@ -125,6 +145,13 @@ class DeviceHandler : virtual public DeviceIf {
       returnVal.__isset.max = true;
       return returnVal;
   }
+  // From JS
+  /*
+  dwf::ContinuousRangeConfiguration<int> setCRConfigInt(CRConfigInt val) {
+      dwf::ContinuousRangeConfiguration<int> returnVal;
+      returnVal.set(val.val);
+  }
+  */
   template<typename T>
   ::SetConfig getSetConfig(dwf::SetConfiguration<T> * devSetConfig) {
       ::SetConfig returnVal;
@@ -148,6 +175,7 @@ class DeviceHandler : virtual public DeviceIf {
       returnVal.__isset.stepSize = true;
       return returnVal;
   }
+  // To JS
   ::DigitalInTrigger getDInTrigger(dwf::DigitalInTriggerStruct trigStruct) {
       ::DigitalInTrigger returnVal;
       returnVal.LevelLow = getSetFromInt(trigStruct.levelLow);
@@ -156,12 +184,28 @@ class DeviceHandler : virtual public DeviceIf {
       returnVal.EdgeFall = getSetFromInt(trigStruct.edgeFall);
       return returnVal;
   }
+  // From JS
+  dwf::DigitalInTriggerStruct createDInTrigger(::DigitalInTrigger val) {
+      dwf::DigitalInTriggerStruct trigStruct;
+      trigStruct.levelLow  = getIntFromSet(val.LevelLow);
+      trigStruct.levelHigh = getIntFromSet(val.LevelHigh);
+      trigStruct.edgeRise  = getIntFromSet(val.EdgeRise);
+      trigStruct.edgeFall  = getIntFromSet(val.EdgeFall);
+      return trigStruct;
+  }
   std::set<int> getSetFromInt(int val) {
       std::set<int> returnVal;
       for(int i = 0; i < sizeof(int); ++i) {
           if(IsBitSet(val, i)) {
               returnVal.insert(i);
           }
+      }
+      return returnVal;
+  }
+  int getIntFromSet(std::set<int> val) {
+      int returnVal;
+      for(auto it = val.begin(); it != val.end(); ++it) {
+          returnVal &= *it;
       }
       return returnVal;
   }

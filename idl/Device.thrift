@@ -14,9 +14,9 @@ service Device {
     DigitalInput.DigitalInput getDigitalInputConfig(),
     // Set configuration and get what was actually set
     DigitalInput.DigitalInput configureDigitalInput(1:DigitalInput.DigitalInput config) throws (1:InvalidConfiguration ouch),
-    oneway void resetDigitalInput(),
-    oneway void startDigitalInput(),
-    oneway void stopDigitalInput(),
+    void resetDigitalInput(),
+    void startDigitalInput(),
+    void stopDigitalInput(),
     list<DigitalInput.DigitalData> readDigitalInput(),
 
     // AnalogInput functions
