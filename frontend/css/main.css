@@ -34,3 +34,7 @@ svg {
   fill: none;
   stroke-width: 1.5px;
 }
+
+td {
+  padding-top: 6px;
+}
