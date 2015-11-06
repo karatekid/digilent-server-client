@@ -34,6 +34,9 @@ define(["lib/d3.min"], function(d3) {
     var line = d3.svg.area()
         .x(function(d, i) { return x(i); })
         .y(function(d) { return y(d); });
+    var zoom = d3.behavior.zoom()
+        .x(x)
+        .on("zoom", zoomed);
     // Step Fxn
     line.interpolate('step-after');
 
@@ -86,7 +89,8 @@ define(["lib/d3.min"], function(d3) {
     // SVG Creation / update
     var svg = d3.select("#digitalin-graph-container").append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        .attr("height", height + margin.top + margin.bottom)
+        .call(zoom);
 
     // Axes
     var xAxisGraph = svg.append("g")
@@ -96,6 +100,18 @@ define(["lib/d3.min"], function(d3) {
     // Lines
     var lineContainer = svg.append("g")
         .attr("id", "lineContainer");
+
+    // Update lines w/o new data ie) zoom
+    var reloadLines = function() {
+        // Axis update
+        xAxisGraph.call(xAxis);
+        // Get Lines
+        lineContainer.selectAll("g")
+            .select("path")
+            .attr("d", line);
+    };
+
+    // Update lines w/ new data ie) fetch
     var updateLines = function(data) {
         // Setup domain
         x.domain([
@@ -126,6 +142,12 @@ define(["lib/d3.min"], function(d3) {
         // Exit
         lines.exit().remove();
     };
+
+    function zoomed() {
+        console.log(d3.event);
+        reloadLines();
+    }
+
     updateLines(allData);
     return {
         updateLines: updateLines,
