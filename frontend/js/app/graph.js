@@ -35,7 +35,6 @@ define(["lib/d3.min"], function(d3) {
         .x(function(d, i) { return x(i); })
         .y(function(d) { return y(d); });
     var zoom = d3.behavior.zoom()
-        .x(x)
         .on("zoom", zoomed);
     // Step Fxn
     line.interpolate('step-after');
@@ -90,7 +89,6 @@ define(["lib/d3.min"], function(d3) {
     var svg = d3.select("#digitalin-graph-container").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .call(zoom);
 
     // Axes
     var xAxisGraph = svg.append("g")
@@ -118,6 +116,7 @@ define(["lib/d3.min"], function(d3) {
                 d3.min(data, function(c) { return d3.min(c, function(d, i) { return i; }); }),
                 d3.max(data, function(c) { return d3.max(c, function(d, i) { return i; }); })
                 ]);
+        svg.call(zoom.x(x));
         y.domain([
                 d3.min(data, function(c) { return d3.min(c, function(d) { return d; }); }),
                 d3.max(data, function(c) { return d3.max(c, function(d) { return d; }); })
@@ -144,7 +143,6 @@ define(["lib/d3.min"], function(d3) {
     };
 
     function zoomed() {
-        console.log(d3.event);
         reloadLines();
     }
 
