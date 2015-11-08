@@ -14,6 +14,11 @@ define(["lib/d3.min"], function(d3) {
         return data;
     };
     // Setup
+    //TODO: hook up to actual frequency
+    var frequency = 1000000; //1MHZ
+    // Compute from frequency
+    var period = 1.0 / frequency;
+    // Visuals
     var margin = {top: 40, right: 20, bottom: 30, left: 50},
         width  = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
@@ -25,6 +30,15 @@ define(["lib/d3.min"], function(d3) {
         .range([lineHeight, 0]);
     var xAxis = d3.svg.axis()
         .scale(x)
+        .ticks(6)
+        .tickFormat(function (d) {
+            var t = d * period;
+            var prefix = d3.formatPrefix(t);
+            return prefix.scale(t).toFixed(2) + prefix.symbol + 'S';
+        })
+        .innerTickSize(-height)
+        .outerTickSize(0)
+        .tickPadding(10)
         .orient("bottom");
     var yAxis = d3.svg.axis()
         .scale(y)
