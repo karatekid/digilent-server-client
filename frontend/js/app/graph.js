@@ -32,9 +32,8 @@ define(["lib/d3.min"], function(d3) {
         .scale(x)
         .ticks(6)
         .tickFormat(function (d) {
-            var t = d * period;
-            var prefix = d3.formatPrefix(t);
-            return prefix.scale(t).toFixed(2) + prefix.symbol + 'S';
+            var prefix = d3.formatPrefix(d);
+            return prefix.scale(d).toFixed(2) + prefix.symbol + 'S';
         })
         .innerTickSize(-height)
         .outerTickSize(0)
@@ -46,7 +45,7 @@ define(["lib/d3.min"], function(d3) {
     var colors = d3.scale.category20()
         .domain(d3.range(16));
     var line = d3.svg.area()
-        .x(function(d, i) { return x(i); })
+        .x(function(d, i) { return x(i*period); })
         .y(function(d) { return y(d); });
     // Step Fxn
     line.interpolate('step-after');
@@ -132,8 +131,8 @@ define(["lib/d3.min"], function(d3) {
         }
         // Setup domain
         x.domain([
-                d3.min(data, function(c) { return d3.min(c.value, function(d, i) { return i; }); }),
-                d3.max(data, function(c) { return d3.max(c.value, function(d, i) { return i; }); })
+                d3.min(data, function(c) { return d3.min(c.value, function(d, i) { return i*period; }); }),
+                d3.max(data, function(c) { return d3.max(c.value, function(d, i) { return i*period; }); })
                 ]);
         svg.call(zoom.x(x));
         y.domain([
