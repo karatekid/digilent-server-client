@@ -48,10 +48,10 @@ define(["lib/d3.min"], function(d3) {
     var line = d3.svg.area()
         .x(function(d, i) { return x(i); })
         .y(function(d) { return y(d); });
-    var zoom = d3.behavior.zoom()
-        .on("zoom", zoomed);
     // Step Fxn
     line.interpolate('step-after');
+    var zoom = d3.behavior.zoom()
+        .on("zoom", zoomed);
 
     // Generate fake data
     var steppers = [
@@ -71,9 +71,9 @@ define(["lib/d3.min"], function(d3) {
         [100, 200, 100, 150, 150],
         [200, 300, 200],
         [120, 140, 40, 400]];
-    var allData = [];
+    var allData = {};
     for(var i = 0; i < steppers.length; ++i) {
-        allData.push(genFakeData(steppers[i]));
+        allData[i] = genFakeData(steppers[i]);
     }
     var updateSteppers = [
         [300, 100, 30, 130, 140],
@@ -93,9 +93,9 @@ define(["lib/d3.min"], function(d3) {
         [100, 400, 100, 100],
         [120, 180, 400],
         ];
-    var updateData = [];
+    var updateData = {};
     for(var i = 0; i < updateSteppers.length; ++i) {
-        updateData.push(genFakeData(updateSteppers[i]));
+        updateData[i] = genFakeData(updateSteppers[i]);
     }
 
 
@@ -120,20 +120,25 @@ define(["lib/d3.min"], function(d3) {
         // Get Lines
         lineContainer.selectAll("g")
             .select("path")
-            .attr("d", line);
+            .attr("d", function(d) { return line(d.value); });
     };
 
     // Update lines w/ new data ie) fetch
+    // Data takes form of dictionary, channel is key and data array is value
     var updateLines = function(data) {
+        data = d3.entries(data); //Turn into array of key and value
+        for(var i = 0; i < data.length; ++i) {
+            data[i].key = parseInt(data[i].key);
+        }
         // Setup domain
         x.domain([
-                d3.min(data, function(c) { return d3.min(c, function(d, i) { return i; }); }),
-                d3.max(data, function(c) { return d3.max(c, function(d, i) { return i; }); })
+                d3.min(data, function(c) { return d3.min(c.value, function(d, i) { return i; }); }),
+                d3.max(data, function(c) { return d3.max(c.value, function(d, i) { return i; }); })
                 ]);
         svg.call(zoom.x(x));
         y.domain([
-                d3.min(data, function(c) { return d3.min(c, function(d) { return d; }); }),
-                d3.max(data, function(c) { return d3.max(c, function(d) { return d; }); })
+                d3.min(data, function(c) { return d3.min(c.value, function(d) { return d; }); }),
+                d3.max(data, function(c) { return d3.max(c.value, function(d) { return d; }); })
                 ]);
         // Axis update
         xAxisGraph.call(xAxis);
@@ -144,14 +149,14 @@ define(["lib/d3.min"], function(d3) {
         lines.enter()
             .append("g")
             .attr("height", lineHeight)
-            .attr("transform", function(d, i) { return "translate(" + margin.left + "," + (margin.top + i*(lineHeight + linePadding)) + ")";})
-            .attr("id", function(d, i) { return "line" + i; })
+            .attr("transform", function(d) { return "translate(" + margin.left + "," + (margin.top + d.key*(lineHeight + linePadding)) + ")";})
+            .attr("id", function(d) { return "line" + d.key; })
             .append("path")
             .attr("class", "line")
-            .attr("stroke", function(d, i) { return colors(i); });
+            .attr("stroke", function(d) { return colors(d.key); });
         // Update & enter
         lines.select("path")
-            .attr("d", line);
+            .attr("d", function(d) { return line(d.value); });
         // Exit
         lines.exit().remove();
     };
