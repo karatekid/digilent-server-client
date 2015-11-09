@@ -28,10 +28,8 @@ function getDigitalInputConfig() {
 
 function performDigitalRead() {
     var arr = client.readDigitalInput();
-    console.log(arr);
     var brokenLines = utils.breakupDigitalInput(arr);
-    console.log(brokenLines);
-    graph.updateLines(brokenLines);
+    graph.updateLines(brokenLines, digitalInConfig.frequency.val());
 }
 function startDigitalRead() {
     configureDigitalRead();

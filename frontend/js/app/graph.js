@@ -124,7 +124,13 @@ define(["lib/d3.min"], function(d3) {
 
     // Update lines w/ new data ie) fetch
     // Data takes form of dictionary, channel is key and data array is value
-    var updateLines = function(data) {
+    // DataFreq is the frequency of the incoming data
+    var updateLines = function(data, dataFreq) {
+        // Default value
+        dataFreq = typeof dataFreq !== 'undefined' ? dataFreq : 1000.0;
+        // Assign global period
+        period = 1.0 / dataFreq;
+
         data = d3.entries(data); //Turn into array of key and value
         for(var i = 0; i < data.length; ++i) {
             data[i].key = parseInt(data[i].key);
