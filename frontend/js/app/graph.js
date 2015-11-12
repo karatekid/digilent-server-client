@@ -175,7 +175,7 @@ define(["lib/d3.min"], function(d3) {
         var newLegendEntries = legendEntries.enter()
             .append("g")
             .attr("height", lineHeight)
-            .attr("transform", function(d) { return "translate(" + margin.left + "," + (margin.top + d.key*(lineHeight + linePadding)) + ")";})
+            .attr("transform", function(d) { return "translate(0," + (margin.top + lineHeight + d.key*(lineHeight + linePadding)) + ")";})
             .attr("id", function(d) { return "legendEntry" + d.key;});
         newLegendEntries.append("text")
             .attr("class", "legendTextEntry")
