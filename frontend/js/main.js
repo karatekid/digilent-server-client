@@ -45,7 +45,6 @@ $("#digitalin-startRead").click(startDigitalRead);
 $("#digitalin-stopRead").click(stopDigitalRead);
 
 function legendClick() {
-    console.log($(this));
     var channel = parseInt($(this).context.textContent);
     var html = " <button type='button' class='btn btn-danger btn-xs'>Hide</button>";
     return html;
