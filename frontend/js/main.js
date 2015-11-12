@@ -44,6 +44,25 @@ function stopDigitalRead() {
 $("#digitalin-startRead").click(startDigitalRead);
 $("#digitalin-stopRead").click(stopDigitalRead);
 
+function legendClick() {
+    console.log($(this));
+    var channel = parseInt($(this).context.textContent);
+    var html = " <button type='button' class='btn btn-danger btn-xs'>Hide</button>";
+    return html;
+}
+function legendTitle() {
+    var channel = parseInt($(this).context.textContent);
+    return "CH: " + channel;
+}
+var legendPopoverOptions = {
+    container: "body",
+    html: true,
+
+    content: legendClick,
+    title: legendTitle
+};
+$(".legendTextEntry").popover(legendPopoverOptions);
+
 // Must register components before applying bindings
 ko.components.register('crInput', { require: 'CRTextInput-component'});
 ko.components.register('setInput', { require: 'SetInput-component'});
