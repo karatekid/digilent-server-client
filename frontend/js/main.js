@@ -18,11 +18,13 @@ var doneDrawing = false;
 
 function getDigitalInputConfig() {
     try {
-      return client.getDigitalInputConfig();
+        var d = client.getDigitalInputConfig();
+        console.log(d);
+      return d;
     } catch(NetworkError) {
       //Don't fail, mock currently for testing
-      //TODO: Implement better Mock setup
-      return DigitalInput();
+      console.log("<WARNING>: You are using a mocked digital input");
+      return MockDigitalInput;
     }
 }
 
