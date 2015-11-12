@@ -97,7 +97,6 @@ define(["lib/d3.min"], function(d3) {
         updateData[i] = genFakeData(updateSteppers[i]);
     }
 
-
     // SVG Creation / update
     var svg = d3.select("#digitalin-graph-container").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -111,6 +110,10 @@ define(["lib/d3.min"], function(d3) {
     // Lines
     var lineContainer = svg.append("g")
         .attr("id", "lineContainer");
+
+    // Legend
+    var legend = svg.append("g")
+        .attr("id", "legend");
 
     // Update lines w/o new data ie) zoom
     var reloadLines = function() {
@@ -157,13 +160,33 @@ define(["lib/d3.min"], function(d3) {
             .attr("transform", function(d) { return "translate(" + margin.left + "," + (margin.top + d.key*(lineHeight + linePadding)) + ")";})
             .attr("id", function(d) { return "line" + d.key; })
             .append("path")
-            .attr("class", "line")
-            .attr("stroke", function(d) { return colors(d.key); });
+            .attr("class", "line");
         // Update & enter
         lines.select("path")
+            .attr("stroke", function(d) { return colors(d.key); })
             .attr("d", function(d) { return line(d.value); });
         // Exit
         lines.exit().remove();
+
+        // Apply data to legend
+        var legendEntries = legend.selectAll("g").data(data);
+        // Update only
+        // Enter only
+        var newLegendEntries = legendEntries.enter()
+            .append("g")
+            .attr("height", lineHeight)
+            .attr("transform", function(d) { return "translate(" + margin.left + "," + (margin.top + d.key*(lineHeight + linePadding)) + ")";})
+            .attr("id", function(d) { return "legendEntry" + d.key;});
+        newLegendEntries.append("text")
+            .attr("class", "legendTextEntry")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "20px");
+        // Update & enter
+        legendEntries.select("text")
+            .text(function(d) { return d.key; })
+            .attr("fill", function(d) { return colors(d.key);});
+        // Exit
+        legendEntries.exit().remove();
     };
 
     function zoomed() {
