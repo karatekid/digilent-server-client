@@ -19,7 +19,7 @@ define(["lib/d3.min"], function(d3) {
     // Compute from frequency
     var period = 1.0 / frequency;
     // Visuals
-    var margin = {top: 40, right: 20, bottom: 30, left: 50},
+    var margin = {top: 40, right: 30, bottom: 30, left: 50},
         width  = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
     var x = d3.scale.linear()
@@ -106,6 +106,26 @@ define(["lib/d3.min"], function(d3) {
     var xAxisGraph = svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(" + margin.left + "," + (margin.top + height) + ")");
+
+    // Cursors
+    // Side: -1 = left, +1 = right
+    var genCursor = function(id, xStart, rectXOffset) {
+        var cursor = svg.append("g")
+            .attr("class", "cursor")
+            .attr("id", id)
+            .attr("transform", "translate(" + xStart + "," + (margin.top + height) + ")");
+        cursor.append("line")
+            .attr("class", "cursor-line")
+            .attr("y2", -(height + margin.top/2));
+        cursor.append("rect")
+            .attr("x", rectXOffset)
+            .attr("y", -(height + margin.top))
+            .attr("width", margin.top/2)
+            .attr("height", margin.top);
+        return cursor;
+    };
+    var lCursor = genCursor("lCursor", margin.left, -(margin.top/2 -1));
+    var rCursor = genCursor("rCursor", margin.left + width, -1);
 
     // Lines
     var lineContainer = svg.append("g")

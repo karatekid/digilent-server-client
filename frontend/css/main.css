@@ -44,6 +44,15 @@ svg {
   stroke: black;
 }
 
+.cursor {
+  display: none;
+}
+
+.cursor-line {
+  stroke-width: 2;
+  stroke: black;
+}
+
 td {
   padding-top: 6px;
 }

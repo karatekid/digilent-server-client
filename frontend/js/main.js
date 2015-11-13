@@ -43,9 +43,6 @@ function stopDigitalRead() {
 }
 
 
-$("#digitalin-startRead").click(startDigitalRead);
-$("#digitalin-stopRead").click(stopDigitalRead);
-
 function legendClick() {
     var channel = parseInt($(this).context.textContent);
     var html = " <button type='button' class='btn btn-danger btn-xs'>Hide</button>";
@@ -62,7 +59,6 @@ var legendPopoverOptions = {
     content: legendClick,
     title: legendTitle
 };
-$(".legendTextEntry").popover(legendPopoverOptions);
 
 // Must register components before applying bindings
 ko.components.register('crInput', { require: 'CRTextInput-component'});
@@ -75,4 +71,14 @@ ko.applyBindings(digitalInConfig, document.getElementById('digitalin'));
 function configureDigitalRead() {
     client.configureDigitalInput(ko.mapping.toJS(digitalInConfig));
 }
+
+// Register dom with functions
+$("#digitalin-startRead").click(startDigitalRead);
+$("#digitalin-stopRead").click(stopDigitalRead);
+$(".legendTextEntry").popover(legendPopoverOptions);
+$("#cursor-toggle").click(function() {
+    console.log("Toggling cursor");
+    $(".cursor").toggle();
+});
+
 });
