@@ -49,6 +49,11 @@ define(["lib/d3.min"], function(d3) {
         .y(function(d) { return y(d); });
     // Step Fxn
     line.interpolate('step-after');
+    var drag = d3.behavior.drag()
+        .on("dragstart", dragstarted)
+        .on("drag", dragged)
+        .on("dragend", dragended);
+
     var zoom = d3.behavior.zoom()
         .on("zoom", zoomed);
 
@@ -122,6 +127,7 @@ define(["lib/d3.min"], function(d3) {
             .attr("y", -(height + margin.top))
             .attr("width", margin.top/2)
             .attr("height", margin.top);
+        cursor.call(drag);
         return cursor;
     };
     var lCursor = genCursor("lCursor", margin.left, -(margin.top/2 -1));
@@ -211,6 +217,19 @@ define(["lib/d3.min"], function(d3) {
 
     function zoomed() {
         reloadLines();
+    }
+
+    function dragstarted() {
+        d3.event.sourceEvent.stopPropagation();
+    }
+    function dragged() {
+        curTransform = d3.select(this).attr("transform");
+        lastHalf = curTransform.split(",")[1];
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.x + "," + lastHalf);
+        //console.log(x.invert(d3.event.x));
+    }
+    function dragended() {
     }
 
     updateLines(allData);
