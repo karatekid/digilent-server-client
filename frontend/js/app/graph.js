@@ -222,12 +222,29 @@ define(["lib/d3.min"], function(d3) {
     function dragstarted() {
         d3.event.sourceEvent.stopPropagation();
     }
+    function getCursorX(cursor) {
+         return parseInt(cursor.attr("transform").split(",")[0].split("(")[1]);
+    }
+    function boundCursor(cursor, newX) {
+        var min = margin.left,
+            max = margin.left + width;
+        // Bounds check
+        if(cursor.id == "rCursor") {
+            min = getCursorX(d3.select("#lCursor"));
+        } else {
+            max = getCursorX(d3.select("#rCursor"));
+        }
+        newX = newX > max ? max : newX;
+        newX = newX < min ? min : newX;
+        return newX;
+    }
     function dragged() {
         curTransform = d3.select(this).attr("transform");
         lastHalf = curTransform.split(",")[1];
+        var eventX = boundCursor(this, d3.event.x);
         d3.select(this).attr("transform",
-                "translate(" + d3.event.x + "," + lastHalf);
-        //console.log(x.invert(d3.event.x));
+                "translate(" + eventX + "," + lastHalf);
+        //console.log(x.invert(eventX - margin.left));
     }
     function dragended() {
     }
