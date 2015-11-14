@@ -1,5 +1,9 @@
 define(function() {
 
+var formatCursorTime = null;
+var initialize = function(options) {
+    formatCursorTime = options.formatTime;
+};
 function getClosestDigitalFreq(minFreq, maxFreq, setFreq) {
     //Normalize
     return maxFreq / getDigitalDivider(minFreq, maxFreq, setFreq);
@@ -43,6 +47,9 @@ function DigitalInConfigVM(data) {
         }),
         step: 1
     }
+    self.lCursor = ko.observable(0.0);
+    self.rCursor = ko.observable(0.0);
+    self.formatCursorTime = formatCursorTime;
 }
 var DigitalInMapping = {
     create: function(options) {
@@ -50,6 +57,7 @@ var DigitalInMapping = {
     }
 }
 return {
-    DigitalInMapping: DigitalInMapping
+    DigitalInMapping: DigitalInMapping,
+    initialize: initialize
 };
 });

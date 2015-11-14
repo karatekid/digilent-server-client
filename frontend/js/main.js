@@ -64,6 +64,7 @@ var legendPopoverOptions = {
 ko.components.register('crInput', { require: 'CRTextInput-component'});
 ko.components.register('setInput', { require: 'SetInput-component'});
 
+DigitalInKO.initialize({formatTime: graph.formatTime});
 //A global instance of the digitalIn configuration
 var digitalInConfig = ko.mapping.fromJS(getDigitalInputConfig(), DigitalInKO.DigitalInMapping);
 ko.applyBindings(digitalInConfig, document.getElementById('digitalin'));
@@ -72,12 +73,25 @@ function configureDigitalRead() {
     client.configureDigitalInput(ko.mapping.toJS(digitalInConfig));
 }
 
+function cursorChanged(id, val) {
+    if(id === "lCursor") {
+        digitalInConfig.lCursor(val);
+    } else if(id === "rCursor") {
+        digitalInConfig.rCursor(val);
+    } else {
+        digitalInConfig.lCursor(graph.invertX($("#lCursor").attr("x")));
+        digitalInConfig.rCursor(graph.invertX($("#rCursor").attr("x")));
+    }
+}
+
 // Register dom with functions
 $("#digitalin-startRead").click(startDigitalRead);
 $("#digitalin-stopRead").click(stopDigitalRead);
 $(".legendTextEntry").popover(legendPopoverOptions);
+
+graph.initialize({onCursorChanged: cursorChanged});
+cursorChanged();
 $("#cursor-toggle").click(function() {
-    console.log("Toggling cursor");
     $(".cursor").toggle();
 });
 

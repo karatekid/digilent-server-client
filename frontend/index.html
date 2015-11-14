@@ -140,6 +140,24 @@
               <button class="btn btn-primary" type="button" id="cursor-toggle">
                 Cursor
               </button>
+              <div class="cursor">
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>XL:</th>
+                      <td id="cursor-xl" data-bind="text: formatCursorTime(lCursor())"></td>
+                    </tr>
+                    <tr>
+                      <th>XR:</th>
+                      <td id="cursor-xr" data-bind="text: formatCursorTime(rCursor())"></td>
+                    </tr>
+                    <tr>
+                      <th>XR_XL:</th>
+                      <td id="cursor_xr-xl" data-bind="text: formatCursorTime(rCursor() - lCursor())"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>  <!-- End Measurements -->

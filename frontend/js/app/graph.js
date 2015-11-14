@@ -1,4 +1,8 @@
 define(["lib/d3.min"], function(d3) {
+    var cursorChanged = null;
+    var initialize = function(initParams) {
+        cursorChanged = initParams.onCursorChanged;
+    };
     // Generate series of 1's & 0's from array of durations
     var genFakeData = function(arr, curVal) {
         // Default params
@@ -28,13 +32,14 @@ define(["lib/d3.min"], function(d3) {
     var lineHeight = height / 16 - linePadding;
     var y = d3.scale.linear()
         .range([lineHeight, 0]);
+    function formatTime(d) {
+        var prefix = d3.formatPrefix(d);
+        return prefix.scale(d).toFixed(2) + prefix.symbol + 'S';
+    }
     var xAxis = d3.svg.axis()
         .scale(x)
         .ticks(6)
-        .tickFormat(function (d) {
-            var prefix = d3.formatPrefix(d);
-            return prefix.scale(d).toFixed(2) + prefix.symbol + 'S';
-        })
+        .tickFormat(formatTime)
         .innerTickSize(-height)
         .outerTickSize(0)
         .tickPadding(10)
@@ -118,7 +123,8 @@ define(["lib/d3.min"], function(d3) {
         var cursor = svg.append("g")
             .attr("class", "cursor")
             .attr("id", id)
-            .attr("transform", "translate(" + xStart + "," + (margin.top + height) + ")");
+            .attr("transform", "translate(" + xStart + "," + (margin.top + height) + ")")
+            .attr("x", xStart - margin.left);
         cursor.append("line")
             .attr("class", "cursor-line")
             .attr("y2", -(height + margin.top/2));
@@ -217,13 +223,26 @@ define(["lib/d3.min"], function(d3) {
 
     function zoomed() {
         reloadLines();
+        if(cursorChanged) {
+            cursorChanged();
+        }
     }
 
     function dragstarted() {
         d3.event.sourceEvent.stopPropagation();
     }
+    function splitD3Transform(elt) {
+        var transformString = elt.attr("transform");
+        var lParenPos = transformString.indexOf("(");
+        var commaPos = transformString.indexOf(",");
+        var rParenPos = transformString.indexOf(")");
+        return {
+            x: parseFloat(transformString.slice(lParenPos + 1, commaPos)),
+            y: parseFloat(transformString.slice(commaPos + 1, rParenPos))
+        };
+    }
     function getCursorX(cursor) {
-         return parseInt(cursor.attr("transform").split(",")[0].split("(")[1]);
+        return splitD3Transform(cursor).x;
     }
     function boundCursor(cursor, newX) {
         var min = margin.left,
@@ -239,19 +258,25 @@ define(["lib/d3.min"], function(d3) {
         return newX;
     }
     function dragged() {
-        curTransform = d3.select(this).attr("transform");
-        lastHalf = curTransform.split(",")[1];
+        var eventY = splitD3Transform(d3.select(this)).y;
         var eventX = boundCursor(this, d3.event.x);
         d3.select(this).attr("transform",
-                "translate(" + eventX + "," + lastHalf);
-        //console.log(x.invert(eventX - margin.left));
+                "translate(" + eventX + "," + eventY + ")")
+            .attr("x", eventX - margin.left);
+
+        if(cursorChanged) {
+            cursorChanged(this.id, x.invert(eventX - margin.left));
+        }
     }
     function dragended() {
     }
 
     updateLines(allData);
     return {
+        initialize: initialize,
         updateLines: updateLines,
-        updateData: updateData
+        updateData: updateData,
+        invertX: x.invert,
+        formatTime: formatTime
     };
 });
