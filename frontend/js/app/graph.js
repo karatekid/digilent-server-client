@@ -50,6 +50,10 @@ define(["lib/d3.min"], function(d3) {
     var colors = d3.scale.category20()
         .domain(d3.range(16));
     var line = d3.svg.area()
+        .defined(function(d, i) {
+            i = x(i * period);
+            return i >= 0 && i <= width;
+        })
         .x(function(d, i) { return x(i*period); })
         .y(function(d) { return y(d); });
     // Step Fxn
@@ -228,8 +232,8 @@ define(["lib/d3.min"], function(d3) {
             rightBound = -x.range()[1] * (zoom.scale() - 1);
         var curX = zoom.translate()[0],
             curY = zoom.translate()[1];
-        curX = curX > leftBound ? leftBound : curX;
-        curX = curX < rightBound ? rightBound : curX;
+        curX = Math.min(curX, leftBound);
+        curX = Math.max(curX, rightBound);
         zoom.translate([curX, curY]);
 
         // Redraw
@@ -264,8 +268,8 @@ define(["lib/d3.min"], function(d3) {
         } else {
             max = getCursorX(d3.select("#rCursor"));
         }
-        newX = newX > max ? max : newX;
-        newX = newX < min ? min : newX;
+        newX = Math.min(newX, max);
+        newX = Math.max(newX, min);
         return newX;
     }
     function dragged() {
