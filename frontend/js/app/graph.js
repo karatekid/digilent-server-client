@@ -49,7 +49,7 @@ define(["lib/d3.min"], function(d3) {
         .orient("left");
     var colors = d3.scale.category20()
         .domain(d3.range(16));
-    var line = d3.svg.area()
+    var line = d3.svg.line()
         .defined(function(d, i) {
             i = x(i * period);
             return i >= 0 && i <= width;
