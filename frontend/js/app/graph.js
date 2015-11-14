@@ -60,6 +60,7 @@ define(["lib/d3.min"], function(d3) {
         .on("dragend", dragended);
 
     var zoom = d3.behavior.zoom()
+        .scaleExtent([1, Infinity])
         .on("zoom", zoomed);
 
     // Generate fake data
@@ -222,6 +223,16 @@ define(["lib/d3.min"], function(d3) {
     };
 
     function zoomed() {
+        // Bound zoom / pan
+        var leftBound = x.range()[0],
+            rightBound = -x.range()[1] * (zoom.scale() - 1);
+        var curX = zoom.translate()[0],
+            curY = zoom.translate()[1];
+        curX = curX > leftBound ? leftBound : curX;
+        curX = curX < rightBound ? rightBound : curX;
+        zoom.translate([curX, curY]);
+
+        // Redraw
         reloadLines();
         if(cursorChanged) {
             cursorChanged();
