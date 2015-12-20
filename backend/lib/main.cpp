@@ -10,7 +10,7 @@
 #include <thrift/transport/THttpServer.h>
 
 #include <dwfobj/Device.h>
-#include <dwfobj/helper.h>
+#include <dwfobj/Helper.h>
 #include <dwfobj/easylogging++.h>
 
 using namespace ::apache::thrift;
